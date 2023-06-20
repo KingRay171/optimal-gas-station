@@ -19,4 +19,8 @@ Site will be live soon!
 
 1. Type `npm run build` to compile the project.
 2. Type `npm start` to start the webserver.
+<<<<<<< HEAD
 3. On a browser, go to http://localhost:8080
+=======
+3. On a browser, go to http://localhost:8080
+>>>>>>> fa40b91ffc37b279a31ddc579cd56b2c67be2ae7
