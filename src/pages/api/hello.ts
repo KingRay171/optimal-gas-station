@@ -6,9 +6,10 @@ type Data = {
 }
 
 export default function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
-  fetch("https://www.gasbuddy.com/gaspricemap/map?fuelTypeId=1&height=600&width=1265&maxLat=45.40307408555111&maxLng=-75.72397054133633&minLat=45.31101409445494&minLng=-75.83098073480714",
+  const coords = JSON.parse(req.body)
+  fetch(`https://www.gasbuddy.com/gaspricemap/map?fuelTypeId=1&height=600&width=1265&maxLat=${coords.lat + .25}&maxLng=${coords.lng + .25}&minLat=${coords.lat - .25}&minLng=${coords.lng - .25}`,
   {
     method: "POST"
-  }).then(data => data.json()).then(data => res.status(200).json(data))
+  }).then(data => data.json()).then(data => res.status(200).send(data))
 
 }
