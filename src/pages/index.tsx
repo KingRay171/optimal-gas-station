@@ -6,9 +6,9 @@ import Nav from './navbar';
 import { Dialog, DialogTitle, DialogActions, DialogContent, DialogContentText } from '@mui/material';
 
 function sortNumbers(a: {id: number, lat: number, lng: number, price: any, distance: number, distanceAdjPrice: any}, b: {id: number, lat: number, lng: number, price: any, distance: number, distanceAdjPrice: any}) {
-  if (parseFloat(a.distanceAdjPrice) > parseFloat(b.distanceAdjPrice)) {
+  if (parseFloat(a.price) > parseFloat(b.price)) {
     return 1;
-  } else if (parseFloat(b.distanceAdjPrice) > parseFloat(a.distanceAdjPrice)) {
+  } else if (parseFloat(b.price) > parseFloat(a.price)) {
     return -1;
   } else {
     return 0;
@@ -26,13 +26,13 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((pos) => {
+      navigator.geolocation.getCurrentPosition(async (pos) => {
         setVal({lat: pos.coords.latitude, lng: pos.coords.longitude})
 
-        fetch("/api/hello", {method: "POST", body: JSON.stringify({lat: pos.coords.latitude, lng: pos.coords.longitude})}).then(data => data.json()).then(data => {
-          setStations(data)
-          
-        })
+        const stations = await fetch("/api/hello", {method: "POST", body: JSON.stringify({lat: pos.coords.latitude, lng: pos.coords.longitude})})
+        const stationsJSON = await stations.json()
+        setStations(stationsJSON)
+        
       })
     }
   }, [e])
@@ -61,7 +61,9 @@ const Home: NextPage = () => {
 
 
   return (
+    
     <div className='flex flex-col'>
+      
       <GoogleMap
         options={mapOptions}
         zoom={13}
@@ -70,7 +72,8 @@ const Home: NextPage = () => {
         mapContainerStyle={{ height: '90vh', width: '100%' }}
         onLoad={() => console.log('Map Component Loaded...')}>
         
-          {stations.filter(e => !isNaN(e.price)).sort(sortNumbers).map((station, idx) => (
+          {stations
+          .map((station, idx) => (
             <Marker key={station.id} position={{lat: station.lat, lng: station.lng}} label={`${station.price}`} icon={ {
               path: "M-20,0a20,20 0 1,0 40,0a20,20 0 1,0 -40,0",
               fillColor: idx !== 0 ? '#FF0000' : '#0000FF',
@@ -83,7 +86,6 @@ const Home: NextPage = () => {
               setDialogOpen(true)
             }}/>
           ))}
-          
           <MarkerF position={val} />
           <Dialog open={dialogOpen} onClose={() => {setDialogOpen(false)}}>
             <DialogTitle>Station</DialogTitle>
@@ -97,6 +99,7 @@ const Home: NextPage = () => {
           </Dialog>
       </GoogleMap>
       <Nav onClick={() => setE(e + 1)} />
+      
     </div>
   );
 };
