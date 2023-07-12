@@ -3,7 +3,7 @@ import { useLoadScript, GoogleMap, MarkerF, Marker, useGoogleMap } from '@react-
 import type { NextPage } from 'next';
 import { useMemo, useState, useEffect, useRef } from 'react';
 import Nav from './navbar';
-import { Dialog, DialogTitle, DialogActions, DialogContent, DialogContentText } from '@mui/material';
+import { Dialog, DialogTitle, DialogActions, DialogContent, DialogContentText, Button } from '@mui/material';
 
 function sortNumbers(a: {id: number, lat: number, lng: number, price: any, distance: number, distanceAdjPrice: any}, b: {id: number, lat: number, lng: number, price: any, distance: number, distanceAdjPrice: any}) {
   if (parseFloat(a.price) > parseFloat(b.price)) {
@@ -32,7 +32,7 @@ const Home: NextPage = () => {
         const stations = await fetch("/api/hello", {method: "POST", body: JSON.stringify({lat: pos.coords.latitude, lng: pos.coords.longitude})})
         const stationsJSON = await stations.json()
         setStations(stationsJSON)
-        
+
       })
     }
   }, [e])
@@ -96,6 +96,11 @@ const Home: NextPage = () => {
                 {currentStation.distanceAdjPrice}
               </DialogContentText>
             </DialogContent>
+            <DialogActions>
+              <Button href={`https://www.google.com/maps/dir/Current+Location/${currentStation.lat},${currentStation.lng}`} target='_blank'>
+                Directions
+              </Button>
+            </DialogActions>
           </Dialog>
       </GoogleMap>
       <Nav onClick={() => setE(e + 1)} />
