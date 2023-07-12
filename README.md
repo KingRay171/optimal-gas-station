@@ -1,12 +1,12 @@
 ## Optimal Gas Station
 
-optimal-gas-station will be a web app built with Next.js, TailwindCSS, and TypeScript.
+optimal-gas-station is a web app built with Next.js, TailwindCSS, and TypeScript.
 
-It will display the user's nearest gas stations and their prices. It will also compute the optimal stop based on the stations' distances, prices, and the fuel economy of the car. Finally, it will supply the user with directions to the gas station through Google Maps.
+It displays the user's nearest gas stations and their prices. It also computes the optimal stop based on the stations' distances, prices, and the fuel economy of the car. Finally, it supplies the user with directions to the gas station through Google Maps.
 
 So like GasBuddy, but better.
 
-Site will be live soon!
+Site is live [here!](https://optimal-gs.netlify.app)
 
 ## Getting Started
 
